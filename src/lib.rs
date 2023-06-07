@@ -1,1 +1,1 @@
-mod nodeapi;
+pub mod nodeapi;
