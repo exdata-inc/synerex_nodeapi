@@ -456,7 +456,7 @@ pub mod node_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                (*inner).register_node(request).await
+                                <T as Node>::register_node(&inner, request).await
                             };
                             Box::pin(fut)
                         }
@@ -499,7 +499,9 @@ pub mod node_server {
                             request: tonic::Request<super::NodeId>,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
-                            let fut = async move { (*inner).query_node(request).await };
+                            let fut = async move {
+                                <T as Node>::query_node(&inner, request).await
+                            };
                             Box::pin(fut)
                         }
                     }
@@ -541,7 +543,9 @@ pub mod node_server {
                             request: tonic::Request<super::NodeUpdate>,
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
-                            let fut = async move { (*inner).keep_alive(request).await };
+                            let fut = async move {
+                                <T as Node>::keep_alive(&inner, request).await
+                            };
                             Box::pin(fut)
                         }
                     }
@@ -584,7 +588,7 @@ pub mod node_server {
                         ) -> Self::Future {
                             let inner = Arc::clone(&self.0);
                             let fut = async move {
-                                (*inner).un_register_node(request).await
+                                <T as Node>::un_register_node(&inner, request).await
                             };
                             Box::pin(fut)
                         }
